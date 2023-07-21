@@ -1,12 +1,12 @@
 package edu.kits.finalproject.Domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,22 +15,30 @@ import java.util.Date;
 @Table(name = "orders")
 public class Order implements Serializable {
     @Id
-    private String orderId;
+    @GeneratedValue
+    private Long id;
 
     @Temporal(TemporalType.DATE)
     private Date orderDate;
 
-    //    @Column(nullable = false)
-    //    private int customerId;
     @Column(nullable = false)
     private double amount;
 
     @Column(nullable = false)
     private String status;
 
-//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    @Column
-    private String courses;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "courseId")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Course> courses;
+
+    public Order(Date orderDate, double amount, String status) {
+        this.orderDate = orderDate;
+        this.amount = amount;
+        this.status = status;
+        this.courses = new ArrayList<>();
+    }
 
     //    @ManyToOne
 //    @JoinColumn(name = "customerId")

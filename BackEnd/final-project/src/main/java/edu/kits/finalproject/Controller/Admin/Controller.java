@@ -36,8 +36,7 @@ public class Controller {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private OrderService orderService;
+
 
     @GetMapping("/courses")
     @ResponseBody
@@ -82,30 +81,4 @@ public class Controller {
         return modelMapper.map(user, UserDto.class);
     }
 
-//    @PostMapping(path = "/add-order",
-//        consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-//        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping(value = "/add-order",
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<ResponseDto> addOrder(@RequestBody Order order){
-        String message = "";
-        try{
-            orderService.store(order.getOrderId(), order.getOrderDate(), order.getAmount(), order.getStatus(), order.getCourses());
-            message = "Uploaded order successfully: ";
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(message));
-        }catch (Exception e){
-            message = "Could not upload oder!";
-            System.out.println("Exception");
-        }
-        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(message));
-    }
-
-    @GetMapping("/order/{orderId}")
-    @ResponseBody
-    public OrderDto getOrderById(@PathVariable(name = "orderId") String orderId){
-        return modelMapper.map(orderService.getOrderById(orderId), OrderDto.class);
-    }
 }
