@@ -42,7 +42,7 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     @ResponseBody
-    public OrderDto getOrderById(@PathVariable(name = "orderId") Long orderId){
+    public Order getOrderById(@PathVariable(name = "orderId") Long orderId){
         String logPrefix = "getOrderById";
         Order order;
         try {
@@ -56,6 +56,6 @@ public class OrderController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order with id " + orderId + " not found", null);
         }
         System.out.println(order);
-        return modelMapper.map(order, OrderDto.class);
+        return order;
     }
 }
