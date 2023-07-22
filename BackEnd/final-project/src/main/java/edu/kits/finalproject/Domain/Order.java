@@ -1,5 +1,6 @@
 package edu.kits.finalproject.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,18 +29,16 @@ public class Order implements Serializable {
     private String status;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.DETACH,
             CascadeType.MERGE,
-            CascadeType.REFRESH,
             CascadeType.PERSIST
     })
     @JoinTable(
             name = "orders_courses",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "courseId")
+            joinColumns = { @JoinColumn(name = "course_id") },
+            inverseJoinColumns = { @JoinColumn(name = "order_id") }
     )
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
     private List<Course> courses;
 
     @Column(nullable = false)

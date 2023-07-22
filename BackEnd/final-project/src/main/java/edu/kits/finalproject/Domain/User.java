@@ -1,5 +1,6 @@
 package edu.kits.finalproject.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,6 +47,7 @@ public class User implements Serializable {
             name = "user_course",
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "courseId"))
+    @JsonIgnore
     private List<Course> courses;
 
     @ManyToOne

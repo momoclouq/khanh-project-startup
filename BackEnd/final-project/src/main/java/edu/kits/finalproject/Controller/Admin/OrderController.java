@@ -32,7 +32,7 @@ public class OrderController {
         String logPrefix = "addOrder";
         try{
             // should update this endpoint get correct input (list of coursesId)
-            Order createdOrder = orderService.store("ABC", order.getAmount(), order.getStatus(), order.getCourseIds());
+            Order createdOrder = orderService.store(order.getOrderId(), order.getAmount(), order.getStatus(), order.getCourseIds());
             return createdOrder;
         } catch (Exception e){
             System.out.println(logPrefix + " failed - " + e.getMessage());
@@ -55,6 +55,7 @@ public class OrderController {
         if (order == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order with id " + orderId + " not found", null);
         }
-        return modelMapper.map(orderService.getOrderById(orderId), OrderDto.class);
+        System.out.println(order);
+        return modelMapper.map(order, OrderDto.class);
     }
 }

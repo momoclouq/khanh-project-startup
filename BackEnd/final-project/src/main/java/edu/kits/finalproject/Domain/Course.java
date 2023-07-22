@@ -1,5 +1,6 @@
 package edu.kits.finalproject.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mysql.cj.protocol.ColumnDefinition;
 import jakarta.persistence.*;
 import lombok.*;
@@ -68,14 +69,16 @@ public class Course implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "userId"))
     private List<User> users;
 
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
-//            CascadeType.PERSIST, CascadeType.REFRESH})
-//    @JoinColumn(name = "id", nullable = true)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "courses")
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "courses"
+    )
+    @JsonIgnore
     private List<Order> orders;
-
 
     public Course(String name, double price, String desciption, byte[] thumbnail, double rating, int enroll, String listOfVideo) {
         this.name = name;

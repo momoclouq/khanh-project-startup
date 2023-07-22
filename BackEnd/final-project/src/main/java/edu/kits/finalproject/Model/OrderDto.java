@@ -10,8 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderDto implements Serializable {
-//    @NotNull
-//    private String order;
+    @NotNull
+    private String orderId;
 
     @NotNull
     private List<Long> courseIds;
