@@ -1,19 +1,24 @@
 package edu.kits.finalproject.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 public class OrderDto implements Serializable {
-    private String orderId;
-    private Date orderDate;
-    private String courses;
+//    @NotNull
+//    private String order;
+
+    @NotNull
+    private List<Long> courseIds;
+
+    @NotNull
     private double amount;
+
+    @NotNull
     private String status;
 }

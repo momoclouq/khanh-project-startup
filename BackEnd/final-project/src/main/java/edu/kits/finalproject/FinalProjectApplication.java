@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,10 +32,15 @@ public class FinalProjectApplication {
                 registry.addMapping("/admin/categoties").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/admin/courses/{id}").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/admin/get-tutor-from-course/{id}").allowedOrigins("http://localhost:3000");
-                //registry.addMapping("/admin/add-order").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/admin/order").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/admin/order/{orderId}").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("http://localhost:3000");
             }
         };
+    }
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        return new MethodValidationPostProcessor();
     }
 
     public static void main(String[] args) {

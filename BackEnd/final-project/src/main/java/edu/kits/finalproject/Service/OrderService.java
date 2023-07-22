@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 public interface OrderService {
-    Order store(double amount, String status, List<Long> courseIds);
+    Order store(String orderId, double amount, String status, List<Long> courseIds);
 
-    Order getOrderById(String orderId);
+    Order getOrderById(Long orderId);
 
 }

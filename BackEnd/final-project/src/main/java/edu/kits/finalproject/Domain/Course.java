@@ -2,9 +2,7 @@ package edu.kits.finalproject.Domain;
 
 import com.mysql.cj.protocol.ColumnDefinition;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
@@ -70,9 +68,14 @@ public class Course implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "userId"))
     private List<User> users;
 
-//    @ManyToOne
-//    @JoinColumn(name = "orderId")
-//    private Order order;
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
+//            CascadeType.PERSIST, CascadeType.REFRESH})
+//    @JoinColumn(name = "id", nullable = true)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "courses")
+    private List<Order> orders;
+
 
     public Course(String name, double price, String desciption, byte[] thumbnail, double rating, int enroll, String listOfVideo) {
         this.name = name;

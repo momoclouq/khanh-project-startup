@@ -23,9 +23,9 @@ public class OrderServiceImpl implements OrderService {
     private CourseRepository courseRepository;
 
     @Override
-    public Order store(double amount, String status, List<Long> courseIds) {
+    public Order store(String orderId, double amount, String status, List<Long> courseIds) {
         Date currentDate = new Date();
-        Order order = new Order(currentDate, amount, status);
+        Order order = new Order(currentDate, amount, status, orderId);
 
         List<Course> courseList = new ArrayList<>();
         courseIds.forEach((courseId) -> {
@@ -36,12 +36,14 @@ public class OrderServiceImpl implements OrderService {
                 throw new RuntimeException("Course with id " + courseId + " does not exist");
             }
         });
+        order.setCourses(courseList);
+        System.out.println(order);
 
         return orderRepository.save(order);
     }
 
     @Override
-    public Order getOrderById(String orderId) {
+    public Order getOrderById(Long orderId) {
         Optional<Order> result = orderRepository.findById(orderId);
         if(result.isPresent())
             return result.get();

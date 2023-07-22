@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "orders")
 public class Order implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @Temporal(TemporalType.DATE)
@@ -27,23 +27,35 @@ public class Order implements Serializable {
     @Column(nullable = false)
     private String status;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "courseId")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST
+    })
+    @JoinTable(
+            name = "orders_courses",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "courseId")
+    )
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Course> courses;
 
-    public Order(Date orderDate, double amount, String status) {
+    @Column(nullable = false)
+    private String orderId;
+
+    public Order(Date orderDate, double amount, String status, String orderId) {
         this.orderDate = orderDate;
         this.amount = amount;
         this.status = status;
         this.courses = new ArrayList<>();
+        this.orderId = orderId;
     }
 
-    //    @ManyToOne
-//    @JoinColumn(name = "customerId")
-//    private Customer customer;
+    @Override
+    public String toString(){
+        return "order: " + amount + ", " + status + ", " + orderId;
+    }
 
-//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-//    private Set<OrderDetail> orderDetails;
 }
